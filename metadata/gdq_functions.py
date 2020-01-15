@@ -13,6 +13,12 @@ def check_file(repo_path,filename):
         os.remove(full_file)
     df3=pd.DataFrame(columns=['Event','Date','Start Time','Game','Category','Platform','Runners','Host'])
     return df3.to_csv(full_file)
+
+#def check_donations(repo_path,filename):
+#    full_file=repo_path+"\\"+filename+".csv"
+#    if os.path.exists(full_file)==True:
+#        os.remove(full_file)
+#    df_donation=pd.DataFrame(column=)
     
 # Scrape GDQ website for a given event, and 
 # download the schedule. Cleans up formatting.        
@@ -110,10 +116,26 @@ def platform_cleanup(dataset):
             },inplace=True)   
     return dataset
     
+
+#function for pulling donation information
+
+def donation_pull(repo_path,filename,index):
+    try:
+        url='https://gamesdonequick.com/tracker/event/'+str(index)
+        html=requests.get(url).content
+    except:
+        print("Connection error. Retrying.")
+        time.sleep(5)
     
+    df_donate=pd.read_html(html)
+        
+    for i, df in enumerate(df_donate):
+        df.to_csv('table {}.csv'.format(i))
     
+        full_path=repo_path+"\\"+ filename +'.csv'
+    df_donate.to_csv(full_path,mode='a',header=False)
+    os.remove("table 0.csv")
+    return df_donate
     
-    
-    
-    
+
     

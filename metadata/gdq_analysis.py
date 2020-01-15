@@ -52,3 +52,20 @@ event_list.plot(kind="bar")
 plt.title("Number of Games by Event")
 plt.legend().remove()
 plt.savefig(repo_path+"\\game_by_event.png")
+
+#Grabbing donation information by event.
+
+
+
+event_list=game_list.Event.unique()
+for event in event_list:
+    try:
+        donation_hist=func.donation_pull(repo_path,filename,event)
+    except:
+        print("Page not found")
+        
+        
+        
+        
+        
+        
